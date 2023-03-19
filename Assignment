@@ -1,0 +1,364 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<windows.h>
+#include<time.h>
+#pragma warning(disable:4996)
+#define YES_CASE 9
+#define TOTAL_CASES 100
+#define TOTAL_DEATHS 2
+#define TOTAL_RECOVERES 10
+#define UNDER_TREATMENT 88
+#define YES_DAY 9 
+void main()
+{
+//Variables declarations
+int local, imported, deaths, recovered, totalNcases, totalCases, totalDeaths, totalRecovered, 
+underTreatment, difCase, choose, difTcases;
+float perOfdeaths, perOfrecovered, perOfundertreatment, perTdeaths, perTrecovered, 
+perUtreat, difDrate, difRerate;
+//calculations
+perTdeaths = ((double)TOTAL_DEATHS / TOTAL_CASES) * 100;
+perTrecovered = ((double)TOTAL_RECOVERES / TOTAL_CASES) * 100;
+perUtreat = ((double)UNDER_TREATMENT / TOTAL_CASES) * 100;
+
+//colour
+HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+CONSOLE_SCREEN_BUFFER_INFO ConsoleInfo;
+GetConsoleScreenBufferInfo(hConsole, &ConsoleInfo);
+int originalAttrs = ConsoleInfo.wAttributes;
+SetConsoleTextAttribute(hConsole, FOREGROUND_RED);
+printf("+====================================================================
+======================================+\n");
+printf("|| ||\n");
+printf("|| CCCCCCCCCCC TTTTTTTTTTTTTTTT SSSSSSSSSSSS ----- 
+||\n");
+printf("|| CC TT SSS | | ||\n");
+printf("|| CC TT SSS ------ ------ ||\n");
+printf("|| CC TT SSS | COVID-19 | ||\n");
+printf("|| CC TT SSS ----- ------ ||\n");
+printf("|| CC TT SSS | | ||\n");
+printf("|| CCCCCCCCCCC TT SSSSSSSSSSSS | | ||\n");
+printf("|| ----- ||\n");
+printf("+====================================================================
+======================================+\n");
+SetConsoleTextAttribute(hConsole, originalAttrs);
+time_t s, val = 1;
+struct tm* current_time;
+// time in seconds 
+s = time(NULL);
+// to get current time 
+current_time = localtime(&s);
+// print time in minutes, 
+// hours and seconds 
+printf("\n\t\t\tStart time using this program(Hour:Minitue:second)--
+->%02d:%02d:%02d\n",//current time 
+current_time->tm_hour,
+current_time->tm_min,
+current_time->tm_sec);
+//table of day 9 cases report
+printf("\n---------------------------COVID-19 CASES TRACKING SYSTEM------------------------------------
+----------------------\n");
+printf("+---------------------------------------------------------------------------------- +\n");
+printf("| Yesterday's Cases | Total Cases | Total deaths | Total Recovered | Under treatment 
+|\n");
+printf("|-------------------+-------------+--------------+-----------------+-----------------|\n");
+printf("| %d | %d | %d | %d | %d |\n", YES_CASE, 
+TOTAL_CASES, TOTAL_DEATHS, TOTAL_RECOVERES, UNDER_TREATMENT);
+printf("+------------------------------------------------------------------------------------|\n");
+printf("\t\t\t\t | %.1f%% | %.1f%% | %.1f%% |\n", perTdeaths, 
+perTrecovered, perUtreat);
+printf("\t\t\t\t +--------------------------------------------------+\n");
+printf("Day 10\n");
+printf("=======\n");
+printf("Key in Today's data:\n");
+printf("No. of new local cases :");
+scanf("%d", &local);
+
+printf("No.of new imported cases :");
+scanf("%d", &imported);
+//calculation of the number of new cases increase or decrease 
+totalCases = local + imported;
+difCase = totalCases - YES_CASE;
+if (totalCases > YES_CASE)
+{
+printf("Total no.of new case= %d (Increased by %d from yesterday)\n", totalCases, 
+difCase);
+printf("============================================================\n");
+}
+else if (YES_CASE > totalCases)
+{
+printf("Total no.of new case= %d (Decreased by %d from yesterday)\n", totalCases, 
+difCase);
+printf("============================================================\n");
+}
+else
+{
+printf("Total no.of new case= %d (Not changes from yesterday)\n", totalCases);
+printf("============================================================\n");
+}
+printf("No.of deaths :");
+scanf("%d", &deaths);
+
+printf("No.recovered :");
+scanf("%d", &recovered);
+//choose of summary report
+printf("\n====================================================================
+==+++");
+printf("\n 1 - Daily Summary Report, 2 - Daily Comparative Report\n");
+printf(" What type of Report would you like to view(Choose 1 or 2) -->");
+scanf("%d", &choose);
+while (choose < 1 || choose>2)
+{
+printf("\nPlease try again and enter correct choose!\n");
+//choose of summary report
+printf("\n====================================================================
+==+++");
+printf("\n 1 - Daily Summary Report, 2 - Daily Comparative Report\n");
+printf(" What type of Report would you like to view(Choose 1 or 2) -->");
+scanf("%d", &choose);
+}
+//Calculations
+totalNcases = totalCases + TOTAL_CASES;
+totalDeaths = deaths + TOTAL_DEATHS;
+totalRecovered = recovered + TOTAL_RECOVERES;
+underTreatment = totalNcases - totalDeaths - totalRecovered;
+
+perOfdeaths = ((float)totalDeaths / totalNcases * 100);
+perOfrecovered = ((float)totalRecovered / totalNcases * 100);
+perOfundertreatment = ((float)underTreatment / totalNcases * 100);
+difTcases = totalNcases - TOTAL_CASES;
+difDrate = perOfdeaths - perTdeaths;
+difRerate = perOfrecovered - perTrecovered;
+if (choose == 1)
+{
+printf("DAY 10 DAILY Comparative Report\n");
+printf("+-----------------------+---------------++--------------+-----------------------+------------------
+-----+\n");
+printf("|\tToday's\t\t|\tTotal\t|| Total\t|\tTotal\t\t|\tUnder\t\t|\n");
+printf("|\tCases\t\t|\tCases\t||\tDeaths\t|\tRecoverd\t|\ttreatment\t|\n");
+printf("+-----------------------+---------------++--------------+-----------------------+------------------
+-----+\n");
+printf("|\tLocal%7d\t|\t\t||\t\t|\t\t\t|\t\t\t|\n",local);
+printf("|\tImported%4d\t|\t\t||\t\t|\t\t\t|\t\t\t|\n", imported);
+printf("|\t\t%6d\t|\t%5d\t||\t%3d\t|\t%5d\t\t|\t%5d\t\t|\n", totalCases, 
+totalNcases, totalDeaths, totalRecovered, underTreatment);
+printf("+-----------------------+---------------++--------------+-----------------------+------------------
+-----+\n");
+printf("\t\t\t\t\t||\t%.1f%%\t|\t%.1f%%\t\t|\t%.1f%%\t\t|\n", perOfdeaths, 
+perOfrecovered, perOfundertreatment);
+printf("\t\t\t\t\t++--------------------------------------------------------------+\n");
+printf("----------------------- End of Day 10 Reporting ------------------------\n");
+}
+else if (choose == 2)
+{
+printf("DAY 10 DAILY COMPARATIVE REPORT \n");
+
+printf("+-------------------------------+-----------------------+-----------------------+-------------------
+----+\n");
+printf("|\t\t\t\t|\tYESTERDAY DAY 9\t|\tTODAY DAY 10\t|\tDIFFERENCE\t|\n");
+printf("+-------------------------------+-----------------------+-----------------------+-------------------
+----+\n");
+printf("|\tNew Case\t\t|\t%d\t\t|\t%d\t\t|\t[% d]\t\t|\n",YES_CASE, totalCases, 
+difCase);
+printf("+-------------------------------+-----------------------+-----------------------+-------------------
+----+\n");
+printf("|\tTotal Case\t\t|\t%d\t\t|\t%d\t\t|\t[%d]\t\t|\n", TOTAL_CASES, 
+totalNcases, difTcases);
+printf("+-------------------------------+-----------------------+-----------------------+-------------------
+----+\n");
+printf("|\tDeath 
+Rate\t\t|\t%.1f%%\t\t|\t%.1f%%\t\t|\t[%.1f%%]\t\t|\n",perTdeaths, perOfdeaths, difDrate);
+printf("+-------------------------------+-----------------------+-----------------------+-------------------
+----+\n");
+printf("|\tRecovery 
+Rate\t\t|\t%.1f%%\t\t|\t%.1f%%\t\t|\t[%.1f%%]\t\t|\n",perTrecovered ,perOfrecovered, 
+difRerate);
+printf("+-----------------------------------------------------------------------------------------------------
+--+\n");
+printf("------------------------END OF DAY 10 REPORT-----------------------------------------------
+-\n");
+}
+//Variable
+int pretotalCases, pretotalNcases, pretotalDeaths, pretotalRecovered, preundertreatment, 
+preDay, day = 10, higCases, lowCases, higDay, lowDay;
+float preperOfdeaths, preperOfrecovered, preperOfundertreatment;
+char choices;
+//choices of continue to next day
+printf("Do you want to continue (Y for yes)(N for no)?");
+scanf(" %c", &choices);
+
+higCases = lowCases = totalCases;
+higDay = lowDay = day;
+do {
+//calculations
+pretotalCases = totalCases;
+pretotalNcases = totalNcases;
+pretotalDeaths = totalDeaths;
+pretotalRecovered = totalRecovered;
+preundertreatment = underTreatment;
+preperOfdeaths = perOfdeaths;
+preperOfrecovered = perOfrecovered;
+preperOfundertreatment = perOfundertreatment;
+preDay = day;
+//table of previous day short report
+printf("\n---------------------------COVID-19 CASES TRACKING SYSTEM-------------------------
+---------------------------------\n");
+printf("+------------------------------------------------------------------------------------+\n");
+printf("| Yesterday's Cases | Total Cases | Total deaths | Total Recovered | Under 
+treatment |\n");
+printf("|-------------------+-------------+--------------+-----------------+-----------------|\n");
+printf("| %7d | %7d | %5d | %7d | %7d |\n", pretotalCases, 
+pretotalNcases, pretotalDeaths, pretotalRecovered, preundertreatment);
+printf("+------------------------------------------------------------------------------------|\n");
+printf("\t\t\t\t | %4.1f%% | %3.1f%% | %3.1f%% |\n", 
+preperOfdeaths, preperOfrecovered, preperOfundertreatment);
+printf("\t\t\t\t +--------------------------------------------------+\n");
+
+++day;
+printf("Day %d\n", day);
+printf("=======\n");
+printf("Key in Today's data:\n");
+printf("No. of new local cases :");
+scanf("%d", &local);
+printf("No.of new imported cases :");
+scanf("%d", &imported);
+//calculation of the number of new cases increase or decrease 
+totalCases = local + imported;
+difCase = totalCases - pretotalCases;
+if (totalCases >pretotalCases)
+{
+printf("Total no.of new case= %d (Increased by %d from yesterday)\n", 
+totalCases, difCase);
+printf("============================================================\n");
+}
+else if (pretotalCases > totalCases)
+{
+printf("Total no.of new case= %d (Decreased by %d from yesterday)\n", 
+totalCases, difCase);
+printf("============================================================\n");
+}
+
+else
+{
+printf("Total no.of new case= %d (Not changes from yesterday)\n", 
+totalCases);
+printf("============================================================\n");
+}
+printf("No.of deaths :");
+scanf("%d", &deaths);
+printf("No.recovered :");
+scanf("%d", &recovered);
+//calculations
+totalNcases = totalCases + pretotalNcases;
+totalDeaths = deaths + pretotalDeaths;
+totalRecovered = recovered + pretotalRecovered;
+underTreatment = totalNcases - totalDeaths - totalRecovered;
+perOfdeaths = ((float)totalDeaths / totalNcases * 100);
+perOfrecovered = ((float)totalRecovered / totalNcases * 100);
+perOfundertreatment = ((float)underTreatment / totalNcases * 100);
+difTcases = totalNcases - pretotalNcases;
+difDrate = perOfdeaths - preperOfdeaths;
+difRerate = perOfrecovered - preperOfrecovered;
+//choose of summary report
+printf("\n====================================================================
+==+++");
+
+printf("\n 1 - Daily Summary Report, 2 - Daily Comparative Report\n");
+printf(" What type of Report would you like to view(Choose 1 or 2) -->");
+scanf("%d", &choose);
+while (choose < 1 || choose>2)
+{
+printf("\nPlease try again and enter correct choose!\n");
+//choose of summary report
+printf("\n====================================================================
+==+++");
+printf("\n 1 - Daily Summary Report, 2 - Daily Comparative Report\n");
+printf(" What type of Report would you like to view(Choose 1 or 2) -->");
+scanf("%d", &choose);
+}
+if (choose == 1)
+{
+printf("DAY %d DAILY Comparative Report\n", day);
+printf("+-----------------------+---------------++--------------+-----------------------+-------
+----------------+\n");
+printf("|\tToday's\t\t|\tTotal\t|| Total\t|\tTotal\t\t|\tUnder\t\t|\n");
+printf("|\tCases\t\t|\tCases\t||\tDeaths\t|\tRecoverd\t|\ttreatment\t|\n");
+printf("+-----------------------+---------------++--------------+-----------------------+-------
+----------------+\n");
+printf("|\tLocal%7d\t|\t\t||\t\t|\t\t\t|\t\t\t|\n", local);
+printf("|\tImported%4d\t|\t\t||\t\t|\t\t\t|\t\t\t|\n", imported);
+printf("|\t\t%6d\t|\t%5d\t||\t%3d\t|\t%5d\t\t|\t%5d\t\t|\n", totalCases, 
+totalNcases, totalDeaths, totalRecovered, underTreatment);
+
+printf("+-----------------------+---------------++--------------+-----------------------+-------
+----------------+\n");
+printf("\t\t\t\t\t||\t%.1f%%\t|\t%.1f%%\t\t|\t%.1f%%\t\t|\n", 
+perOfdeaths, perOfrecovered, perOfundertreatment);
+printf("\t\t\t\t\t++--------------------------------------------------------------+\n");
+printf("----------------------- End of Day %d Reporting ------------------------\n", 
+day);
+}
+else if (choose == 2)
+{
+printf("DAY %d DAILY COMPARATIVE REPORT 
+\n", day);
+printf("+-------------------------------+-----------------------+-----------------------+--------
+---------------+\n");
+printf("|\t\t | YESTERDAY DAY %d | TODAY DAY %d |\t 
+DIFFERENCE |\n",day-1,day);
+printf("+-------------------------------+-----------------------+-----------------------+--------
+---------------+\n");
+printf("|\tNew Case\t\t|\t%d\t\t|\t%d\t\t|\t[% d]\t\t|\n", pretotalCases, 
+totalCases, difCase);
+printf("+-------------------------------+-----------------------+-----------------------+--------
+---------------+\n");
+printf("|\tTotal Case\t\t|\t%d\t\t|\t%d\t\t|\t[%d]\t\t|\n", pretotalNcases, 
+totalNcases, difTcases);
+printf("+-------------------------------+-----------------------+-----------------------+--------
+---------------+\n");
+printf("|\tDeath Rate\t\t|\t%.1f%%\t\t|\t%.1f%%\t\t|\t[%.1f%%]\t\t|\n", 
+preperOfdeaths, perOfdeaths, difDrate);
+printf("+-------------------------------+-----------------------+-----------------------+--------
+---------------+\n");
+printf("|\tRecovery 
+Rate\t\t|\t%.1f%%\t\t|\t%.1f%%\t\t|\t[%.1f%%]\t\t|\n", preperOfrecovered, perOfrecovered, 
+difRerate);
+printf("+------------------------------------------------------------------------------------------
+-------------+\n");
+
+printf("\n------------------------END OF DAY %d REPORT--------------------------------
+----------------\n", day);
+}
+//calculation of the highest and lowest cases number and the day of highest and 
+lowest
+if (higCases < totalCases) {
+higCases = totalCases;
+higDay = day;
+}
+if (lowCases > totalCases) {
+lowCases = totalCases;
+lowDay = day;
+}
+printf("Do you want to continue (Y for yes)(N for no)?");
+scanf(" %c", &choices);
+} while (choices == 'Y' || choices == 'y');
+ if (choices == 'N' || choices == 'n');
+ 
+ //calculation of the highest and lowest cases number and the day of highest and lowest
+ //calculation of the highest and lowest cases number and the day of highest and lowest
+ if (higCases < totalCases) {
+ higCases = totalCases;
+ higDay = day;
+ }
+ if (lowCases > totalCases) {
+ lowCases = totalCases;
+ lowDay = day;
+ }
+ //Display the last report
+printf("TOTAL days recorded = %d days(Day %d to Day %d)\n", day-YES_DAY, YES_DAY+1, 
+day);
+printf("HIGHEST number of cases = %d, occurring on Day %d\n", higCases, higDay);
+printf("LOWEST number of cases =%d, occurring on Day %d\n", lowCases, lowDay);
+printf("Bye and Thank You!!\n");
+ 
+system("pause");
